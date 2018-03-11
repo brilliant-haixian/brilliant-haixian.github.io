@@ -1,0 +1,86 @@
+.wrapper {width:800px;height:360px;  margin:0 auto; padding-bottom:50px;}       
+#focus {width:800px; height:360px; overflow:hidden; position:relative;}
+#focus ul {height:360px; position:absolute;}
+#focus ul li {float:left; width:800px;overflow:hidden; position:relative; background:#000;}
+#focus ul li div {position:absolute; overflow:hidden;}
+#focus .btn {position:absolute; width:800px; height:10px; padding:10px 10px; right:0; bottom:0; text-align:right;}
+#focus .btn span {display:inline-block; _display:inline; _zoom:1; width:25px; 
+	height:10px; _font-size:0; margin-left:5px; cursor:pointer; background:red;}
+#focus .preNext {width:45px; height:100px; position:absolute; top:90px;  no-repeat 0 0; cursor:pointer;background:red}
+#focus .next {right:0; background-position:right top;}
+#focus ul li img{width:800px; height:350px}
+a:link { 
+color: #000000; 
+text-decoration: none; 
+} 
+
+a:visited { 
+color: #000000; 
+text-decoration: none; 
+}
+.nav {height:50px;width:900px;margin:auto;text-align:center;line-height:40px;}
+.fivey{height:150px;width:150px;border-radius:50px;border:solid rgb(100,100,100) 0px;
+		float:left;margin:10px 30px;font-size:12px;}
+.fivey img{border-radius:50px;} 
+.art{height:auto;width:900px;margin:35px auto}
+.art span div{width:900px}
+
+.htmleaf-container{width:900px;margin:auto}
+.container {
+	  position: relative;
+	  background: white;
+	  padding: 3em;
+	}
+
+	/* ===========
+	   Tab Styling */
+	.tab-group {
+	  position: relative;
+	  border: 1px solid #eee;
+	  margin-top: 2.5em;
+	  border-radius: 0 0 10px 10px;
+	}
+	.tab-group section {
+	  opacity: 0;
+	  height: 0;
+	  padding: 0 1em;
+	  overflow: hidden;
+	  transition: opacity 0.4s ease, height 0.4s ease;
+	}
+	.tab-group section.active {
+	  opacity: 1;
+	  height: auto;
+	  overflow: visible;
+	}
+
+	.tab-nav {
+	  list-style: none;
+	  margin: -2.5em -1px 0 0;
+	  padding: 0;
+	  height: 2.5em;
+	  overflow: hidden;
+	}
+	.tab-nav li {
+	  display: inline;
+	}
+	.tab-nav li a {
+	  top: 1px;
+	  position: relative;
+	  display: block;
+	  float: left;
+	  border-radius: 10px 10px 0 0;
+	  background: #eee;
+	  line-height: 2em;
+	  padding: 0 1em;
+	  text-decoration: none;
+	  color: grey;
+	  margin-top: .5em;
+	  margin-right: 1px;
+	  transition: background .2s ease, line-height .2s ease, margin .2s ease;
+	}
+	.tab-nav li.active a {
+	  background: #6EB590;
+	  color: white;
+	  line-height: 2.5em;
+	  margin-top: 0;
+	}

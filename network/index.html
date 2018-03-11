@@ -1,0 +1,182 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="css/style.css" media="all">
+<script src="css/jquery1.3.2.js"></script>
+<script type="text/javascript" src="css/MoveEffect.js"></script>
+<script src="css/jquery.min.js"></script>
+
+<script src="js/prefixfree.min.js"></script>
+<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery-tab.js"></script>
+<script type="text/javascript">
+	$(function(){
+		// Calling the plugin
+		$('.tab-group').tabify();
+	})
+</script>
+
+<script language =javascript >
+		setInterval(changeImg,timeInterval);   //setinterval事件，图片和时间改变
+		function changeImg()
+		{
+		var obj=document.getElementById("obj");
+
+			if (curIndex==arr.length-1)    
+			{
+				curIndex=0;
+			}
+
+			else
+			{
+				curIndex+=1;   
+			}
+
+			obj.src=arr[curIndex];
+		}
+</script>
+	
+</head>
+
+
+<body>
+<div class="wrapper" >															
+	<div id="focus" > 
+		<ul style=" padding:0;"> 
+			<li><img src="images/h1.jpg" ></a></li> 
+			<li><img src="images/h1.jpg" ></a></li> 
+			<li><img src="images/h1.jpg"  ></a></li> 
+			<li><img src="images/h1.jpg" ></a></li> 
+			<li><img src="images/h1.jpg" ></a></li> 
+		</ul> 
+	</div> 
+</div>
+
+<div class="nav">
+		<a href="../index.html">首页</a>&nbsp&nbsp
+		<a href="../lang&code/index.html" >语言+代码</a>&nbsp&nbsp
+		<a href="#" style="color:red">网络配置</a>&nbsp&nbsp
+		<a href="">编程心得</a>&nbsp&nbsp
+		<a href="">杂谈</a>
+</div>
+<hr>
+
+<div style="width:848px;height:180px;margin:20px auto;text-align:center;">
+	<div class="fivey"><img src="images/h1.jpg" onmousemove="this.src='images/h11.jpg'"onmouseout="this.src='images/h1.jpg'" width="150px"style="margin:10px auto">数据链路帧报头</div>
+	<div class="fivey"><img src="images/h2.jpg" onmousemove="this.src='images/h22.jpg'"onmouseout="this.src='images/h2.jpg'" width="150px"style="margin:10px auto">IP数据包报头</div>
+	<div class="fivey"><img src="images/h3.jpg" onmousemove="this.src='images/h33.jpg'"onmouseout="this.src='images/h3.jpg'" width="150px"style="margin:10px auto">OSPF数据包报头</div>
+	<div class="fivey"><img src="images/h5.jpg" onmousemove="this.src='images/h55.jpg'"onmouseout="this.src='images/h5.jpg'" width="150px"style="margin:10px auto">Hello数据包</div>
+ </div>
+
+  <hr color="#d5d5d5">
+
+
+
+
+
+<div class="htmleaf-container">
+	<div class="container">
+	  <div class="tab-group">
+		<section id="tab1" title="路由密码">
+		  
+
+<div class="art" >
+<span><div><span style="font-size:19px;"><b>思科路由器操作密码相关</b></span></div><div><b><span style="font-size: 19px;"><br/></span></b></div><div><b>     <span style="color: rgb(186, 0, 255);">console口密码设置</span></b></div><div><b><span style="color: rgb(186, 0, 255);">    </span></b></div><div><b>     命令如下（全部配置模式下）：</b></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router(config)#line console 0</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router(config-line)#password console</div><div><b>          </b>Router(config-line)#login</div><div><br/></div><div>     <b>注意：</b></div><div><b>          console的密码是使用console线进行路由器配置时登录需要的密码</b></div><div><b><br/></b></div><div>    <span style="color: rgb(186, 0, 255);"><b> password与secret密码设置</b></span></div><div><b><span style="color: rgb(186, 0, 255);"><br/></span></b></div><div><b><span style="color: rgb(186, 0, 255);">     </span></b><b>命令如下（全部配置模式下配置，特权模式下保存设置）：</b></div><div><b>         </b> Router(config)#enable password password</div><div>          Router(config)#enable secret secret</div><div>          Router(config)#exit</div><div>          Router#write</div><div><br/></div><div><br/></div><div>     <b>注意：</b></div><div><b>          上面讲password的密码设置为password，将secret的密码设置为secret，其中secret的密码是默认加密的，<br>
+password的密码默认是不加密的，并且secret密码的优先级比
+password密码的优先级高，即如果同时设置了<br>
+password和secret的密码，只有secret密码会生效。这两个密码是在用户模式切换到特权模式时需要的密码。</b></div><div><b><br/></b></div><div>    <span style="color: rgb(186, 0, 255);"><b> vty密码设置（使用telnet连接时必须要设置的）</b></span></div><div><b><span style="color: rgb(186, 0, 255);"><br/></span></b></div><div><b><span style="color: rgb(186, 0, 255);">     </span>命令如下</b></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router(config)#line vty 0 15</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router(config-line)#password vty</div><div><b>          </b>Router(config-line)#login</div><div><br/></div><div>    <b> 注意：</b></div><div><b>          这个密码是使用telnet进行远程管理时需要输入的密码。</b></div><div><b><span style="color: rgb(186, 0, 255);"><br/></span></b></div><div><b><span style="color: rgb(186, 0, 255);">     密码查看</span></b></div><div><b><span style="color: rgb(186, 0, 255);"><br/></span></b></div><div><b>     命令如下</b></div><div><b>          </b>Router#show running-config</div><div><br/></div><div>     <b><span style="color: rgb(186, 0, 255);">密码加密</span></b></div><div><b><span style="color: rgb(186, 0, 255);"><br/></span></b></div><div><b><span style="color: rgb(186, 0, 255);">     </span>命令如下</b></div><div><span style="color: rgb(186, 0, 255);"><b>          </b></span>Router(config)#service password-encryption</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router(config)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router#write</div><div><br/></div><div>     <span style="color: rgb(186, 0, 255);"><b>将加密后的密码转为不加密的密码（默认加密的密码无法更改）</b></span></div><div><b><span style="color: rgb(186, 0, 255);">    </span></b></div><div><b><span style="color: rgb(186, 0, 255);">    </span> 命令如下</b></div><div><b>          </b>Router(config)#no service password-encryption</div><div><b>          </b>Router(config)#enable password password</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router(config)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          Router#write</div><div>     </div><div>     <b>注意：</b></div><div><b>          no service password-encryption命令是无法将已经加密的密码解密的，因为加密是不可逆的，使用这个命令<br>后，接下来设置的密码就会明文显示。</b></div><div><b><br/></b></div><div><b><br/></b></div><div><b>     <span style="color: rgb(186, 0, 255);">忘记密码重置密码操作</span></b></div><div><b><span style="color: rgb(186, 0, 255);"><br/></span></b></div><div><b><span style="color: rgb(186, 0, 255);">     </span><span style="color: rgb(250, 122, 0);">操作如下</span><br/></b></div><div><b>         </b></div><div>          我们忘记了进入特权模式的密码，那么我们就把路由器关机并重启！然后赶快按下【Ctrl+Break】键中断路<br>由器的启动过程，进入 rommon 模式！输入命令改变配置寄存器的值为 0x2142，这会使得路由器开机时不读取 <br>NVRAM 中的配置文件 。然后重新启动路由器！</div><div>     <span style="color: rgb(250, 122, 0);"><b>命令如下：</b></span></div><div style="margin-left:40px;">rommon 1 &gt; confreg 0x2142</div><div style="margin-left:40px;">rommon 3 &gt; reset</div><div><b>     </b></div><div><b>     <span style="color: rgb(250, 122, 0);">接下来操作如下：</span></b></div><div><span style="color: rgb(250, 122, 0);"><b>         </b></span> 等到路由器重新启动后，我们会发现使用console口进入路由器和进入特权模式都不需要密码了，接下来我<br>们需要在特权模式下将配置文件加载到running-config文件中，并且进入全局配置模式修改console的登录密码以及<br>password和secret的密码，并且将寄存器的值恢复为正常值 0x2102，所以。</div><div>    <b> <span style="color: rgb(250, 122, 0);">命令如下：</span></b></div><div><b><span style="color: rgb(250, 122, 0);">          </span></b>Router&gt;enable</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router#copy startup-config running-config</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router#configure terminal</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config)#enable password password</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config)#enable secret secret</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config)#config-register 0x2102</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router#write</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router#configure terminal</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config)#line console 0</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config-line)#password console</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config-line)#login</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router(config)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">Router#reload</div></span>
+</div>
+
+
+
+
+
+
+
+
+		</section>
+		<section id="tab2" title="VLAN路由配置">
+		 <div style="margin:35px auto">
+<span><div><span style="color: rgb(255, 70, 53);"><span style="font-size: 21px;"><b>1.一台路由器下两台PC之间通讯</b></span></span></div><div><b><span style="font-size: 16px;"><span style="color: rgb(88, 152, 255);"><br/></span></span></b></div><div><span style="font-size: 16px;"><span style="color: rgb(88, 152, 255);"><b>前提条件</b></span></span></div><div><span style="color: rgb(88, 152, 255);"><span style="font-size: 21px;"><b>     </b></span> </span>路由器本身已经配置好了console，password，secret，vty对应的密码</div><div><br/></div><div><span style="font-size: 16px;"><span style="color: rgb(88, 152, 255);"><b>配置操作</b></span></span></div><div><b><span style="color: rgb(88, 152, 255);">         </span></b></div><div><b><span style="color: rgb(88, 152, 255);">          </span>图示如下：</b></div><div>                                             <img src="images/4.png"  style="height: auto;"/></div><div><b><span style="color: rgb(88, 152, 255);">               <br/></span></b></div><div><b><span style="color: rgb(88, 152, 255);">         </span> 配置说明：</b></div><div><b><span style="color: rgb(88, 152, 255);">               </span></b>我的两台PC分别连接在路由器的FastEthernet 0/0和FastEthernet 1/0端口上，两台PC的IP分别是192.168.10.2与192.168.20.2，分别隶属于两个不同的网段，路由器的对应的连接端口上设置的IP为这两台PC的网关地址，分别为192.168.10.1与192.168.20.1</div><div><br/></div><div>          <b>命令如下：</b></div><div>               Router(config)#interface fastEthernet 0/0</div><div>               Router(config-if)#ip address 192.168.10.1 255.255.255.0</div><div>               Router(config-if)#no shutdown</div><div>               Router(config-if)#exit</div><div>               Router(config)#interface fastEthernet 1/0</div><div>               Router(config-if)#ip address 192.168.20.1 255.255.255.0</div><div>               Router(config-if)#no shutdown</div><div>               Router (config-if)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router (config)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router #write</div><div><br/></div><div><b><span style="color: rgb(255, 0, 0);"><span style="font-size: 21px;">2.两台路由器之间互联且路由器下对应的PC之间可通讯</span></span></b></div><div><b><span style="font-size: 21px;"><span style="color: rgb(255, 0, 0);"><br/></span></span></b></div><div><span style="font-size: 16px;"><span style="color: rgb(88, 152, 255);"><b>前提条件</b></span></span></div><div><span style="font-size: 16px;"><b><span style="color: rgb(88, 152, 255);">    </span></b></span> 路由器本身下的两台PC之间已经可以访问，并且两台路由器的各个密码都已经配置好。</div><div><span style="font-size: 16px;"><br/></span></div><div><b><span style="color: rgb(88, 152, 255);"><font size="4">配置操作</font></span></b></div><div><span style="color: rgb(88, 152, 255);"><span style="font-size: 16px;"><b>     </b></span></span></div><div><b><span style="color: rgb(88, 152, 255);"><span style="font-size: 16px;">     </span></span> 图示如下：</b></div><div><b>             </b><img src="images/1.png"  style="height: auto;"/></div><div><br/></div><div>          <b>配置说明：</b></div><div><b>               每台PC的IP如图所示，每台路由器下面的不同的网段之间可以通畅访问，但是两台路由器下的PC却不能访问另一台路由器下的PC，例如192.168.10.2/24的PC无法访问192.168.30.2/24这台PC，为止，路由器之间需要进行一些设置。（两台路由器之间的串口线接的口均为serial 2/0口，子网掩码使用255.255.255.252的原因是这样一个网段中就只有两个实际上可用的IP，避免资源浪费，同时实现点对点连接）</b></div><div><b><br/></b></div><div><b><br/></b></div><div><b>          命令如下：</b></div><div><b><br/></b></div><div><b>               （<span style="color: rgb(255, 0, 0);">左</span>边路由器设置命令）</b></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router(config)#interface serial 2/0</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router(config-if)#ip address 12.12.12.1 255.255.255.252</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router(config-if)#no shutdown</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><div>               Router (config-if)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router (config)#exit</div></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router #write</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br/></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               <b>（<span style="color: rgb(77, 206, 29);">右</span>边路由器配置命令） </b></div><div>               Router(config)#interface serial 2/0<b>              </b></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router(config-if)#ip address 12.12.12.2 255.255.255.252</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router(config-if)#no shutdown</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><div>               Router (config-if)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router (config)#exit</div></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router #write</div><div><b><br/></b></div><div><b>          说明：<br/></b></div><div><b>               </b>针对一些老式的路由器，我们还需要手动设定时钟频率，如果要设定时钟频率，我们必须要分清DTE与DCE的位置，因为是DCE（串行口母头）产生时钟频率，所以接下来我们使用命令查询哪一头是DCE头，并且设定时钟频率为56000。（具体的串口号结合自己的实际）</div><div><br/></div><div>          命令如下：</div><div>               Router#show controllers serial 2/0</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router#configure terminal</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router(config)#interface serial 2/0</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router(config-if)#clock rate 56000</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><div>               Router (config-if)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router (config)#exit</div></div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Router #write</div><div>          </div><div>          使用命令后截图（很轻松的判断串行口的哪一端是DCE口，从而在对应的路由器中设置时钟频率）：</div><div>                 </div><div>                           <img src="images/2.png" type="image/png" style="height: auto;"/></div><div>               </div><div><br/></div><div>是目前左边的路由器可以ping通右边的路由器，但是两台路由器下的PC仍然不可以跨路由器进行通讯！因此，需要对路由器进行一些配置。</div><div><b>          </b></div><div><b>          <br/></b></div><div><b>          命令如下：</b></div><div><b><br/></b></div><div><b><br/></b></div><div><b>          占位！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！</b></div><div><b><br/></b></div><div><b><br/></b></div><div><b><br/></b></div><div><b><br/></b></div><div><b><span style="color: rgb(255, 0, 0);"><span style="font-size: 21px;">3.思科交换机下设置VLAN（交换机下的PC仍然属于一个网段）</span></span></b></div><div><b><br/></b></div><div><b><br/></b></div><div><span style="font-size: 16px;"><span style="color: rgb(88, 152, 255);"><b>前提条件</b></span></span></div><div><span style="font-size: 16px;"><b><span style="color: rgb(88, 152, 255);">    </span></b></span> 交换机本身已经配置好了console，password，secret，vty密码。</div><div><br/></div><div><br/></div><div><b><span style="color: rgb(88, 152, 255);"><font size="4">配置操作</font></span></b></div><div><span style="color: rgb(88, 152, 255);"><span style="font-size: 16px;"><b>     </b></span></span></div><div><b><span style="color: rgb(88, 152, 255);"><span style="font-size: 16px;">     </span></span> 图示如下：</b></div><div><b><br/></b></div><div>                   <img src="images/3.png"  style="height: auto;"/></div><div><br/></div><div>          <b>配置说明：</b></div><div>               查看该交换机的默认VLAN是多少（经过测试，发现该交换机的默认VLAN为VLAN 1），设置默认VLAN的IP与子网掩码，使得局域网内两台电脑192.168.100.2与192.168.100.3之间进行通讯，之后将交换机的Interface FastEthernet2/1与Interface FastEthernet3/1端口归属到VLAN 99端口上，再次配置VLAN 99端口的IP与子网掩码，进行测试。</div><div><br/></div><div>          <b>命令如下：</b>        </div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">     Switch#show vlan brief</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch#configure terminal</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config)#interface vlan 1</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config-if)#ip address 192.168.100.1 255.255.255.0         </div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config-if)#no shutdown</div><div>               Switch(config-if)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch#write</div><div>               </div><div>          </div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch#configure terminal</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config)#interface vlan 99</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config-if)#ip address 192.168.101.1 255.255.255.0         </div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config-if)#no shutdown</div><div>               Switch(config-if)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">     Switch(config)#interface fastEthernet 2/1</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">     Switch(config-if)#switchport access vlan 99</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">     Switch(config)#interface fastEthernet 3/1</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;margin-left:40px;">     Switch(config-if)#switchport access vlan 99</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch(config)#exit</div><div style="margin-top:0px; margin-bottom:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">               Switch#write</div><div><br/></div><div>               </div><div>              完成！！！</div><div><br/></div><div><br/></div><div><br/></div><div><br/></div><div><br/></div><div><br/></div></span>
+</div>
+		</section>
+		<section id="tab3" title="OSPF">
+<div style="margin:35px auto">
+		 <h3>配置 ospf：</h3>    <br>  
+ &nbsp&nbsp&nbsp router  ospf   10<br>  
+ &nbsp&nbsp&nbsp Router-id    1.1.1.1<br>  
+ &nbsp&nbsp&nbsp End<br>  
+<br>  
+&nbsp&nbsp&nbsp Show  id  protocols<br>  
+<br>  
+<h3>重置路由id</h3> <br>  
+
+&nbsp&nbsp&nbsp Clear ip  ospf  process<br>  
+<br>  
+&nbsp&nbsp&nbsp Show  ip  protocols | section router id<br>  
+&nbsp&nbsp&nbsp Router  id  1.1.1.1<br>  
+<br>  
+<h3>路由id还可以分配给环回接口</h3><br>  
+ 
+&nbsp&nbsp&nbsp Interface  lookpack  0<br>  
+&nbsp&nbsp&nbsp Ip  address  1.1.1.1 255.255.255.0<br>  
+&nbsp&nbsp&nbsp End<br>  
+<br>  
+<h3>将接口划分给ospf区域</h3><br>  
+
+&nbsp&nbsp&nbsp Router  ospf  10<br>  
+&nbsp&nbsp&nbsp Network  172.16.1.0 255.255.255.0   area  0<br>  
+&nbsp&nbsp&nbsp Network  x.x.x.x 255.255.255.0  area  0<br>  
+<br>  
+<h3>配置被动接口</h3><br>  
+ 
+&nbsp&nbsp&nbsp Router  ospf  10<br>  
+&nbsp&nbsp&nbsp Passive-interface  gigabitethernet   0/0<br>  
+&nbsp&nbsp&nbsp End<br>  
+<br>  <br>  
+
+
+Acl在传输层和网络层中间进行数据包的过滤
+
+		</section>
+		<section id="tab4" title="VLSM">
+		<div style="margin:35px auto">
+		 &nbsp&nbsp&nbsp&nbsp <h3 style="color:red">VLSM</h3>(可变长子网掩码) 是为了有效的使用无类别域间路由（CIDR）和路由汇聚(route summary)来控制路由表的大小，网络管理员使用先进的IP寻址技术，VLSM就是其中的常用方式，可以对子网进行层次化编址，以便最有效的利用现有的地址空间。
+<br><br><br>
+Ospf 创建3个数据库：邻居表：show ip  ospf  neighbor；<br><br>
+<p style="margin-left:155px;">拓扑表（LSDB）：show ip  ospf  database</p><br>
+<p style="margin-left:155px;">路由表：show  ip    route</p><br><br>
+      根据spf算法处理到达路由器的开销。创建 SPF 树。 然后使用 SPF 树计算最佳路由。 OSPF 将最佳路由放入转发数据库，用于创建路由表。<br><br> 
+
+
+过程：<br>1建立邻居关系，<br>
+2 根据邻居的回话状态创建链路状态报告（LSA）且泛洪<br>
+3根据LSA创建LSDB（拓扑表）<br>
+4根据拓扑表执行spf算法计算最短路径    然后形成spf树
+</div>
+		</section>
+		<section id="tab5" title="Another">
+		<div style="text-align:center">
+		 <img src="images/5.png">
+		 <img src="images/6.png">
+		 <img src="images/7.png">
+		 <img src="images/8.png">
+		 </div>
+		</section>
+	  </div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
