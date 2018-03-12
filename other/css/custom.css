@@ -1,0 +1,18 @@
+.top{width:100%;text-align:center}
+a:link { 
+color: #000000; 
+text-decoration: none; 
+} 
+
+a:visited { 
+color: #000000; 
+text-decoration: none; 
+}
+.nav {height:80px;width:900px;margin:auto;text-align:center;line-height:100px;}
+.fivey{height:100px;width:100px;border-radius:50px;border:solid rgb(100,100,100) 0px;float:left;margin:10px 40px}
+.fivey img{border-radius:50px;}
+.art{height:180px;width:910px;overflow:hidden;}
+.word{height:180px;width:580px;float:left}
+.word h3{margin-top:-150px; margin-left:50px;color:#0099ff}
+.word p{font-size:14px;line-height:40px}
+.word img{margin-top:20px;margin-left: 700px;height:140px;width:200px;}
