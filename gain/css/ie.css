@@ -1,0 +1,20 @@
+.csslider1 > .cs_arrowprev > label:after,
+.csslider1 > .cs_arrownext > label:after {
+	line-height: 62px;
+}
+.csslider1 > .cs_play_pause > label:after {
+	line-height: 60px;
+}
+
+.nav {height:90px;width:900px;margin:auto;text-align:center;line-height:90px;}
+.fivey{height:100px;width:100px;border-radius:50px;border:solid rgb(100,100,100) 0px;float:left;margin:10px 40px}
+.fivey img{border-radius:50px;}
+a:link { 
+color: #000000; 
+text-decoration: none; 
+} 
+
+a:visited { 
+color: #000000; 
+text-decoration: none; 
+}
