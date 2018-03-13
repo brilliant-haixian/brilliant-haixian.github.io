@@ -1,0 +1,32 @@
+﻿<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+</head>
+
+<body background="images/bg.jpg">
+<title>servlet</title>
+<div class="bg">
+<div class="art" style="line-height:40px">
+<font face="微软雅黑">
+	<h2>  Servlet 中的doget  dopost方法 </h2><br><hr>
+
+	<p>
+	都是请求方法。因为servlet的请求类型有get和post两种类型。get调用，一般用于获取服务器信息，并将其作为响应返回给客户端。即当经由web浏览器、HTML、JSP直接访问servlet的url时，调用；post用于把客户端数据传送到服务器端，<br><br>
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {<br>
+doPost(request,response);<br>
+}<br>
+<br>
+public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException,ServletException {<br>
+      this.goGet(request,response);//调用doGet()方法<br>
+  }<br>
+}
+	</p>
+	
+		
+	
+
+</font>
+</div>
+</div>
+</body>
+</html>

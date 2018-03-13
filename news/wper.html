@@ -1,0 +1,58 @@
+﻿<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+</head>
+
+<body background="images/bg.jpg">
+<title>Wamp&phone-error</title>
+<div class="bg">
+<div class="art" >
+<font face="微软雅黑">
+	<h2>局域网内手机输入电脑ip不能链接Apache服务器</h2><br><hr>
+
+	<h3><span style="color:red;font-weight:900">问题描述：</span>wamp环境搭配好，启动在线，允许外网访问。前一天可以手机输入localhost可以访问，第二天改端口后，连接失败。</h3>
+	<br>
+	<p>
+		<span style="color:red;font-weight:900">尝试办法1：</span>
+		我想前一天可以正常使用，今天发现apache服务器无法启动，<span >端口无故被占用</span>，可能导致手机无法连接服务器，于是查询80端口被谁占用了。<br>&nbsp&nbsp&nbsp
+		<span>端口查询方法：</span>
+		<p class="port">
+		1.开始---->运行---->cmd，或者是window+R组合键，调出命令窗口<br>
+		2.输入命令：netstat -ano，列出所有端口的情况。在列表中我们观察被占用的端口，比如是49157，首先找到它。<br>
+		<p style="text-align:center"><img src="images/1.jpg" width="500px;"></p>	<br>
+		3.查看被占用端口对应的PID，输入命令：netstat -aon|findstr "49157"，回车，记下最后一位数字，即PID,这里是2720。<br>	
+		4.继续输入tasklist|findstr "2720"，回车，查看是哪个进程或者程序占用了2720端口，结果是：svchost.exe<br>	
+		<p style="text-align:center"><img src="images/2.jpg" width="500px;"><br></p>
+		5.或者是我们打开任务管理器，切换到进程选项卡，在PID一列查看2720对应的进程是谁，如果看不到PID这一列,如下图：<br>	
+		6.则我们点击查看--->选择列，将PID(进程标示符)前面的勾打上，点击确定。<br>	
+		<p style="text-align:center"><img src="images/3.jpg" width="500px;"><br></p>
+		7.这样我们就看到了PID这一列标识，看一下2720对应的进程是谁，如果没有，我们把下面的显示所有用户的进程前面的勾打上，就可以看到了，映像名称是svchost.exe，描述是，Windows的主进程,与上面命令查看的完全一致。<br>	
+		8.结束该进程：在任务管理器中选中该进程点击”结束进程“按钮，或者是在cmd的命令窗口中输入：taskkill /f /t /im Tencentdl.exe。<br><br>
+		<span style="color:blue">引用：https://jingyan.baidu.com/article/3c48dd34491d47e10be358b8.html</span>
+		</p>
+	</p>
+	<p><span style="color:red;font-weight:900">结果1：</span>端口被意外程序占用，关闭不成功。没办法了，只能改端口了，httpd.conf listen修改成8000，apache启动成功，不过手机输入localhost:8000,显示未连接，但是输入localhost显示404，两种截然不同的概念。</p><hr>
+	</p><br>
+	<p>
+		<span style="color:red;font-weight:900">尝试办法2：</span>
+		介于白天新装的gcc程序，怀疑改动注册表了，于是卸载gcc，清理注册表，<span >重装wamp</span><br>
+		<p style="text-align:center;font-size:30px;color:red">注意：</p>
+		<p class="port">
+		<span>备份数据库</span>。。。。重中之重。我只记得把www下的毕设备份出来，忘记备份wamp自带数据库的数据了。然后很悲剧，比着代码又添加了数据库。做一件事情，明明你都做了一遍，还是很枯燥的完成的，当你没备份，需要再做一遍的时候，你手里的冰淇淋就和我当时的心一样凉。
+		</p>
+	</p>
+	<p><span style="color:red;font-weight:900">结果2：</span>重装后链接继续失败</p><br><hr>
+
+	<p><br>
+		<span style="color:red;font-weight:900">最终结果：</span>
+		第三天，我<span>安装iis服务</span>，莫名把之前的“莫名程序”占用的端口“夺取”回来了？？<span>（问号脸??）</span>不管了，既然iis输入localhost能正常使用80端口，那我就把iis服务关闭，然后打开wamp，apache启动成功！手机测试链接。。。。。成功！！<br><br>
+	</p><hr><br><br>
+
+	<h3>这个问题最终解决了，但是原因不明。(不承认自己笨O^O)好吧，记录一下，希望可以帮助其他人~</h3>
+	
+
+</font>
+</div>
+</div>
+</body>
+</html>

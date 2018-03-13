@@ -1,0 +1,30 @@
+﻿<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+</head>
+
+<body background="images/bg.jpg">
+<title>PHP-file</title>
+<div class="bg">
+<div class="art" style="line-height:40px">
+<font face="微软雅黑">
+	<h2>   fopen() &nbsp &nbsp fread()  &nbsp &nbsp fclose()  &nbsp &nbsp fgets()</h2><br><hr>
+
+	<p>
+<span>fread() </span>最大一次性能读取 8k长度的字节数，所以不能一次性读取大文件去作下载。 优势在于，操作更加灵活，每次读取指定字节的内容，用于下载时方便控制服务器的流量。<br>
+<span>readfile() </span>优势是能够一次性读取大文件；不需要PHP预读到内存，下载速度更快，直接把文件的处理交由服务器。缺点就是不能控制负载。所以它是没有内存限制的，如果遇到报内存错误，先调用 ob_end_flush()之类的函数关闭缓冲区。<br>
+<span>file_get_contents </span>也是没 readfile()快， 因为也是走了php的内存。但是在读取小文本内容到字符串变量时，这个函数最适合使用，简单，更快。<br>
+<span>fgets()</span> 是一次读取文件中的一行了，再需要逐行处理文件的时候，使用这个<br>
+<span>fwrite (xx,xx); </span>    向服务器的xx.txt写入内容   //两个参数
+
+
+	</p>
+	
+		
+	
+
+</font>
+</div>
+</div>
+</body>
+</html>

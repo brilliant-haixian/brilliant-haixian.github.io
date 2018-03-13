@@ -1,0 +1,29 @@
+﻿<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+</head>
+
+<body background="images/bg.jpg">
+<title>xss</title>
+<div class="bg">
+<div class="art" style="line-height:40px">
+<font face="微软雅黑">
+	<h2>  跨站点脚本（Cross-site scripting，XSS）攻击</h2><br><hr>
+
+	<p>
+如果您的页面使用了 PHP_SELF，用户能够输入下划线然后执行跨站点脚本（XSS）。
+跨站点脚本（Cross-site scripting，XSS）是一种计算机安全漏洞类型，常见于 Web 应用程序。XSS 能够使攻击者向其他用户浏览的网页中输入客户端脚本。
+htmlspecialchars() 函数     避免 $_SERVER["PHP_SELF"] 被利用。
+
+form method="post" action="?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?"
+
+	</p>
+	
+		<span style="color:blue">引用：www.w3school.com.cn/php/php_form_validation.asp</span>
+	
+
+</font>
+</div>
+</div>
+</body>
+</html>

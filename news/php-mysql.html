@@ -1,0 +1,49 @@
+﻿<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+</head>
+
+<body background="images/bg.jpg">
+<title>PHP&Mysql</title>
+<div class="bg">
+<div class="art" >
+<font face="微软雅黑">
+	<h2>php链接数据库乱码</h2><br><hr>
+
+	<h3 style="text-align:center">做课程设计发现的问题。通过页面提交到数据库的数据，在sqlyog页面看，是乱码。但是，虽然乱码，我在前端读取到的是正常的：存疑1。我在数据库直接写入数据，sqlyog看正常，但是前段读取数据库，显示乱码：存疑2。O^O</h3>
+	<br>
+	<p>
+	<span>办法一：</span>加语句。<br>
+	html: meta http-equiv="Content-Type" content="text/html; charset=UTF-8"<br>
+	php:header("Content-type: text/html; charset=utf-8");<br><br>
+
+	<span>结果：</span>没用。<br><hr><br>
+
+	<span>办法二：</span>改格式<br>
+	html,php的格式，默认是ansi，记事本打开，另存为，格式选择'utf-8'。<br><br>
+
+	<span>结果：</span>没用。<br><br>
+<hr>
+	<span>办法三：</span>哈哈哈哈哈，还是加语句。<br><br>
+
+	<span style="color:#0000ff">$db = new MySQLi("localhost","root","123456","manage");<br>
+$query = "set names utf8";<br>
+$result =$db->query($query);</span><br><br>
+
+结果：success
+
+
+<br><br>
+
+
+
+		
+	</p>
+	<h3>还是很喜欢php，，我想跳槽。虽然很小白，兴趣就是老师。O^O</h3>
+	
+
+</font>
+</div>
+</div>
+</body>
+</html>

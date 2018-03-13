@@ -1,0 +1,36 @@
+﻿<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+</head>
+
+<body background="images/bg.jpg">
+<title>SSH</title>
+<div class="bg">
+<div class="art" >
+<font face="微软雅黑">
+	<h2>SSH总结</h2><br><hr>
+
+	<h3 style="text-align:center">框架，部件的组合，分类完成各自任务。接口链接。（简略介绍）</h3>
+	<br>
+	<p>
+	<span>Struts2</span>是流行和成熟的基于MVC设计模式的Web应用程序框架，对应MVC中的View和Control层<br>
+<span>Hibernate</span>对JDBC进行了非常轻量级的对象封装，即对象到数据库端的封装，就是常说的ORM，说的简单点：就是功能更加强大的JDBC<br>
+<span>spring</span>主要包含两个重要功能：IOC和AOP，也就是常说的依赖注入和面向切面编程<br>
+   &nbsp &nbsp &nbsp &nbsp<span>IOC：</span>依赖注入（控制反转），是一种设计模式，相互依赖的对象分离，在spring配置文件中描述他们的依赖关系，简单来说就是不需要NEW一个对象了<br>
+ &nbsp &nbsp &nbsp &nbsp<span>AOP</span>这是一种面向切面的编程思想<br><br><br>
+ <span>表示层中，</span>首先通过JSP页面实现交互界面，负责传送请求(Request)和接收响应(Response)，然后Struts根据配置文件(struts-config.xml)将ActionServlet接收到的Request委派给相应的Action处理，然后action进行对请求处理并转发给JSP页面。<br>
+<span>业务逻辑层中，</span>管理服务组件的Spring IoC容器负责向Struts2提供具体的Action对象，提供业务模型(Model)组件和该组件的协作对象数据处理(DAO)组件完成业务逻辑<br>
+<span>数据访问层中，</span>则依赖于Hibernate的对象化映射和数据库交互，处理DAO组件请求的数据，并返回处理结果，给业务逻辑层
+
+
+
+		
+	</p>
+	<h3>不知道初级面试的时候问什么问题，是不是整理的很简略？</h3>
+	
+
+</font>
+</div>
+</div>
+</body>
+</html>

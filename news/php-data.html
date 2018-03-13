@@ -1,0 +1,37 @@
+﻿<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+</head>
+
+<body background="images/bg.jpg">
+<title>PHP-data</title>
+<div class="bg">
+<div class="art" style="line-height:40px">
+<font face="微软雅黑">
+	<h2>   WEB服务器端其它数据采集方法  （总结）</h2><br><hr>
+
+	<p>
+<span>预定义变量$_REQUEST</span><br>
+使用预定义变量$_REQUEST即可以采集GET方式提交的URL查询字符串中的参数信息，也可以采集FORM表单POST方式提交的参数信息。程序中所有使用$_GET或$_POST采集的参数信息都可以替换成使用$_REQUEST采集。<br>
+   即：$_REQUEST = array_merge ( $_GET , $_POST )。<br>
+需要注意的是：使用GET和POST混合方式提交数据时，若一个参数名既存在于GET请求中又存在于POST请求中，使用$_REQUEST采集该参数名对应的参数值时，将造成数据的丢失。<br>
+<span>预定义变量$_SERVER</span>
+使用预定义变量$_SERVER可以得到浏览器端和服务器端主机的一些相关信息，例如：<br>
+$_SERVER["REMOTE_ADDR"]：定义了浏览器端主机的IP地址；<br>
+$_SERVER["SERVER_ADDR"]：定义了服务器主机的IP地址；<br>
+$_SERVER["PHP_SELF"]：定义了当前执行程序的文件名；<br>
+$_SERVER['QUERY_STRING']：定义了URL的查询字符串；<br>
+$_SERVER['DOCUMENT_ROOT']：定义了WEB服务器主目录；<br>
+$_SERVER["REQUEST_URI"]：定义了除域名外的其余URL部分。<br>
+
+
+	</p>
+	
+		
+	
+
+</font>
+</div>
+</div>
+</body>
+</html>
