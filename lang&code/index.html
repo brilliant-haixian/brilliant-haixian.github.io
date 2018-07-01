@@ -162,6 +162,397 @@ Codeblocks（强力推荐）： 功能比较强大的 c/c++ IDE，有着不错�
 		</div>
 <hr>
 </section>              <!--c-->
+		  
+<section id="tab5" title="sql">  <!--c-->
+	
+create table #test (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255))
+insert into #test (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE ,FRECEIVEAMOUNT )
+(SELECT  cid,   cnumb,cname, CONVERT(VARCHAR(19),FDATE,102), T.FBILLNO ,t.FREMARK,wid,wnum,wname, t.FSPECIFICATION ,  round (sum (qty),2) as qty ,danwei ,FTAXPRICE,sum(FRECEIVEAMOUNT )FROM (  
+select t0.FCUSTOMERID as cid,tn.FNUMBER as cnumb,tk.FNAME as cname, t0.fdate , T0.FBILLNO ,t0.FREMARK,tm.FMATERIALID as wid,tm.FNUMBER as wnum,t1.FNAME as wname, t1.FSPECIFICATION , t3.FSALQTY QTY  , tw1.FNAME as danwei,t4.FTAXPRICE,t3.FSALQTY*t4.FTAXPRICE as FRECEIVEAMOUNT 
+	from t_AR_receivable t0 left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= t0.FCUSTOMERID) left join T_BD_CUSTOMER tn on tn.fcustid = tk.fcustid left join t_AR_receivableEntry      t4  on(t4.fid = t0.fid) left join t_AR_receivableEntry_O       t3  on(t4.FENTRYID = t3.FENTRYID) left join T_BD_MATERIAL_L      t1  on(t4.FMATERIALID = t1.FMATERIALID)left join T_BD_MATERIAL tm on tm.FMATERIALID = t1.FMATERIALID left join 	T_BD_UNIT tw on (tw.FUNITID=t3.FSALUNITID)  left join T_BD_UNIT_L tw1 on (tw1.FUNITID = tw.FUNITID) 
+	where  t0.FBILLTYPEID = '180ecd4afd5d44b5be78a6efe4a7e041' 	and fdate >='{2}' and fdate <='{3}' 
+union all
+select t0.FCUSTOMERID as cid,tn.FNUMBER as cnumb,tk.FNAME as cname, t0.fdate ,T0.FBILLNO ,t0.FREMARK, tm.FMATERIALID as wid,tm.FNUMBER as wnum,t1.FNAME as wname, t1.FSPECIFICATION ,round (te.FNOTAXAMOUNTFOR/te.FTAXPRICE,3) as  QTY ,   tw1.FNAME as danwei,te.FTAXPRICE,te.FNOTAXAMOUNTFOR as FRECEIVEAMOUNT 
+	from T_AR_RECEIVABLE t0 left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= t0.FCUSTOMERID)left join T_BD_CUSTOMER tn on tn.fcustid = tk.fcustid left join t_AR_receivableEntry  te  on(te.fid = t0.fid) left join T_BD_MATERIAL_L      t1  on(te.FMATERIALID = t1.FMATERIALID)left join T_BD_MATERIAL tm on tm.FMATERIALID = t1.FMATERIALID left join t_AR_receivableEntry_O       t3  on(te.FENTRYID = t3.FENTRYID) left join T_AR_RECEIVABLEENTRY_LK  arl on te.FENTRYID =  arl.FENTRYID and FSTABLENAME = 't_AR_receivableEntry'left join 	T_BD_UNIT tw on (tw.FUNITID=t3.FSALUNITID) left join T_BD_UNIT_L tw1 on (tw1.FUNITID = tw.FUNITID)
+	where  t0.FBILLTYPEID = '5a41e09cdf400e' and fdate >='{2}' and fdate <='{3}' 
+) 	
+T
+Where t.cname is not null  GROUP BY cid,cnumb,cname, CONVERT(VARCHAR(19),FDATE,102), wid,wnum,wname, T.FBILLNO ,t.FREMARK,t.FSPECIFICATION ,  danwei,t.FTAXPRICE
+)
+
+delete from #test where FunitName='打' or FunitName='Dozen'
+
+create table #fbill(fbill1 nvarchar(255),fbill2 nvarchar(255))
+insert into #fbill (fbill1,fbill2)
+(select distinct t0.FBILLNO,t5.FBILLNO from  t_AR_receivable t0 
+left join T_AR_RECEIVABLEENTRY t2 on t2.fid=t0.FID
+left join T_AR_RECEIVABLEENTRY_LK t3 on t3.FENTRYID=t2.FENTRYID
+left join T_AR_RECEIVABLEENTRY t4 on t4.FENTRYID=t3.FSID
+left join  t_AR_receivable t5 on t4.FID = t5.FID
+where t0.FBILLTYPEID = '5a41e09cdf400e' )
+
+update #test set sortid = fbill2 from #test t1 left join #fbill t2 on t2.fbill1 = t1.ArBillNo 
+update #test set sortid = ArBillNo where sortid is null
+update #test set fsalqty =abs(fsalqty)                                  --数量取正
+update #test set FTAXPRICE =  freceiveamount/FSALQTY where FSALQTY!=0    --+ -单价
+
+
+--select * from #test order by CustName,MaterialName
+
+
+create table #ar (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,
+Ebalance float,sortid nvarchar(255))
+insert into #ar (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid )
+(
+	select * from #test where ArBillNo like 'ar%' 
+)
+
+
+create table #tj (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255))
+insert into #tj (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid )
+(
+	select * from #test where ArBillNo like 'tj%' 
+)
+
+--select * from #ar  --16540
+
+create table #artj (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255),tjprice float,tjfre float,tjbill nvarchar(255))
+insert into #artj (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid,tjprice,tjfre,tjbill )
+(
+select ar.*,tj.FTAXPRICE,tj.FRECEIVEAMOUNT,tj.ArBillNo from #ar ar           --16614
+left join #tj tj on ar.sortid =tj.sortid and ar.MaterialNumber =tj.MaterialNumber and ar.FSALQTY =tj.FSALQTY
+)
+create table #dandutj(FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255),tjprice float,tjfre float,tjbill nvarchar(255))
+insert into #dandutj (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid,tjprice,tjfre,tjbill )
+(select * from #artj where  tjbill is not null)
+
+create table #savedandutj(FCUSTID int,CustName nvarchar(255), Fdate datetime,ArBillNo nvarchar(255),fremark nvarchar(255),MaterialName nvarchar(255), fmodel nvarchar(255),FSALQTY float,funitname nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float )
+insert into #savedandutj(FCUSTID,CustName,Fdate,ArBillNo,fremark,MaterialName,fmodel,FSALQTY,funitname,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance)
+(select tj.FCUSTID,tj.CustName,tj.Fdate,tj.ArBillNo,tj.fremark,tj.MaterialName,tj.FModel,tj.FSALQTY,tj.FunitName,tj.FTAXPRICE,tj.FRECEIVEAMOUNT,tj.FPAYAMOUNTFOR,tj.Ebalance from #tj tj   
+left join #dandutj d on d.tjprice = tj.FTAXPRICE and d.tjfre =tj.FRECEIVEAMOUNT and tj.ArBillNo =d.tjbill
+where d.ArBillNo is null)
+
+--回位tj单
+create table #yiyongtj (tjbill nvarchar(255))
+insert into #yiyongtj(tjbill)
+(
+	select distinct tjbill from #artj  
+)
+
+--合并比较tj单
+create table #hebingtj (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255),tjbill nvarchar(255))
+insert into #hebingtj (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid ,tjbill )
+(
+	select * from #tj tj
+	left join #yiyongtj yi on yi.tjbill =tj.ArBillNo
+)
+
+--单独行tj
+create table #buhuiweitj (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255),tjpri float,tjfre float)
+insert into #buhuiweitj (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid ,tjpri )
+(
+select * from #hebingtj where tjbill is null
+)
+
+
+--删除tj单号，方便二调单合并
+alter table #artj drop column tjbill
+
+--合并二调单
+create table #huiweihebing (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255),tjpri float,tjfre float)
+insert into #huiweihebing (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid ,tjpri,tjfre )
+(
+select FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid,sum(tjprice),sum(tjfre)  from #artj group by FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid 
+)
+
+--select * from #huiweihebing where  ArBillNo='AR00003295'
+
+--自增字段，方便去重
+create table #zizeng (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255),tjpri float,tjfre float)
+insert into #zizeng (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid ,tjpri,tjfre )
+(
+select * from #huiweihebing where tjpri is not null
+)
+
+--存储自增
+create table #savezizeng (FCUSTID nvarchar(255),CustNumber nvarchar(255),CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),FMATERIALID nvarchar(255),
+MaterialNumber nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,sortid nvarchar(255),tjpri float,tjfre float,sum int)
+insert into #savezizeng (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid ,tjpri,tjfre,sum )
+(
+select *,
+row_number()over(partition by sortid,materialnumber,fsalqty order by getdate()) as num
+from #zizeng
+)
+
+
+--更新非1 的单价，应收为0
+update #savezizeng set tjpri=0 ,tjfre=0 where sum !=1
+alter table #savezizeng drop column sum
+delete from #huiweihebing where tjpri is not null
+insert into #huiweihebing (FCUSTID ,CustNumber ,CustName ,Fdate ,ArBillNo ,fremark,FMATERIALID,MaterialNumber,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance ,sortid ,tjpri,tjfre )
+(select * from #savezizeng)
+
+
+
+update #huiweihebing set tjpri = 0 where tjpri is null
+update #huiweihebing set tjfre = 0 where tjfre is null
+update #huiweihebing set FTAXPRICE =FTAXPRICE+tjpri,FRECEIVEAMOUNT =FRECEIVEAMOUNT+tjfre
+
+--select * from #huiweihebing where fremark ='期初余额'
+create table #zhengchang(FCUSTID int,CustName nvarchar(255), Fdate datetime,ArBillNo nvarchar(255),fremark nvarchar(255),MaterialName nvarchar(255), fmodel nvarchar(255),FSALQTY float,funitname nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float )
+insert into #zhengchang(FCUSTID,CustName,Fdate,ArBillNo,fremark,MaterialName,fmodel,FSALQTY,funitname,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance)
+(select FCUSTID,CustName,Fdate,ArBillNo,fremark,MaterialName, fmodel,FSALQTY,funitname,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance from #huiweihebing
+union all
+select ts.FCONTACTUNIT as FCUSTID,tk.FNAME as CustName, CONVERT(VARCHAR(19),ts.FDATE,102) as Fdate ,ts.FBILLNO as ArBillNo,ts.fremark,
+'' as MaterialName, ''as fmodel,
+0 as qty,''as funitname,
+0 as FTAXPRICE,
+0 as FRECEIVEAMOUNT, 
+convert( decimal(18,2), ts.FRECEIVEAMOUNTFOR) as FPAYAMOUNTFOR,0 as ebalace
+from T_AR_RECEIVEBILL   ts
+left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= ts.FCONTACTUNIT) 
+where ts.fbilltypeid ='36cf265bd8c3452194ed9c83ec5e73d2'  and ts.FDATE>='{2}' and ts.FDATE<='{3}'
+union all
+(select tt.FCONTACTUNIT as cid,tk.FNAME as cname, CONVERT(VARCHAR(19),tt.FDATE,102) as Fdate ,tt.FBILLNO as fbillno,tt.FREMARK,
+'' as wname,''as fmodel, 0 as QTY,''as funitname,0 as FTAXPRICE,0 as FRECEIVEAMOUNT, -(tt.FREFUNDTOTALAMOUNTFOR)  as FPAYAMOUNTFOR,0 as ebalace
+from  T_AR_REFUNDBILL	tt	
+left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= tt.FCONTACTUNIT)
+where tt.FBILLTYPEID ='ef06f87d394a462d9f96cb2397803372' and tt.FDATE>='{2}' and tt.FDATE<='{3}'
+)
+union all
+select FCUSTID,CustName,Fdate,ArBillNo,fremark,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT,FPAYAMOUNTFOR,Ebalance from  #buhuiweitj
+union all
+select  * from #savedandutj
+)
+
+
+
+
+create table #qichu (fcustid nvarchar(255),fname nvarchar(250),fbeginbalancefor float, fdate1 nvarchar(255))
+insert into #qichu (fcustid,fname,fbeginbalancefor ,fdate1)
+(select   tk.FCUSTID,FNAME,qichu.FBEGINBALANCEFOR, CONVERT(VARCHAR(19),qichu.FSTARTDATE,102)  from  T_BD_CUSTOMER_L tk 
+left join T_AR_CONTACTBAL qichu on (tk.FCUSTID= qichu.FCONTACTUNIT) 
+where qichu.FSTARTDATE=qichu.FENDDATE and qichu.FSTARTDATE='2018-01-01 00:00:00.000')
+
+
+
+
+ --不合并
+ create table #buhebing 
+ (cid int ,cname nvarchar(255),fdate datetime,fbillno nvarchar(255),wname nvarchar(255),
+ qty float,ftaxprice float,freceiveamount float,fpayamountfor float ,ebalace float)
+ insert into #buhebing(cid ,cname,fdate ,fbillno,wname,qty,ftaxprice,freceiveamount,fpayamountfor,ebalace)
+ (
+ select    --原单调价单不合并
+	t0.FCUSTOMERID as cid,
+	tk.FNAME as cname, 
+	t0.fdate , 
+	T0.FBILLNO ,
+	t1.FNAME as wname, 
+	t3.FSALQTY as QTY  , 
+	t4.FTAXPRICE,
+	fsalqty*ftaxprice as FRECEIVEAMOUNT,
+	 0 as FPAYAMOUNTFOR,0 as ebalace
+	from t_AR_receivable t0
+	left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= t0.FCUSTOMERID)
+	left join T_BD_CUSTOMER tn on tn.fcustid = tk.fcustid
+	left join t_AR_receivableEntry      t4  on(t4.fid = t0.fid) 
+	left join t_AR_receivableEntry_O       t3  on(t4.FENTRYID = t3.FENTRYID) 
+	left join T_BD_MATERIAL_L      t1  on(t4.FMATERIALID = t1.FMATERIALID)
+	left join T_BD_MATERIAL tm on tm.FMATERIALID = t1.FMATERIALID
+	left join 	T_BD_UNIT tw on (tw.FUNITID=t3.FSALUNITID)  
+	left join T_BD_UNIT_L tw1 on (tw1.FUNITID = tw.FUNITID) 
+	where  t0.FBILLTYPEID = '180ecd4afd5d44b5be78a6efe4a7e041'
+union all
+	select 
+	
+	t0.FCUSTOMERID as cid,
+	tk.FNAME as cname, 
+	t0.fdate ,
+	T0.FBILLNO ,
+	t1.FNAME as wname, 
+	round (te.FNOTAXAMOUNTFOR/te.FTAXPRICE,1) as  QTY ,   
+	te.FTAXPRICE,
+	te.FNOTAXAMOUNTFOR as FRECEIVEAMOUNT,
+	 0 as FPAYAMOUNTFOR,0 as ebalace
+	from T_AR_RECEIVABLE t0
+	left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= t0.FCUSTOMERID)
+	left join T_BD_CUSTOMER tn on tn.fcustid = tk.fcustid
+	left join t_AR_receivableEntry  te  on(te.fid = t0.fid) 
+	left join T_BD_MATERIAL_L      t1  on(te.FMATERIALID = t1.FMATERIALID)
+	left join T_BD_MATERIAL tm on tm.FMATERIALID = t1.FMATERIALID
+	left join t_AR_receivableEntry_O       t3  on(te.FENTRYID = t3.FENTRYID) 
+	left join T_AR_RECEIVABLEENTRY_LK  arl on te.FENTRYID =  arl.FENTRYID and FSTABLENAME = 't_AR_receivableEntry'
+	left join 	T_BD_UNIT tw on (tw.FUNITID=t3.FSALUNITID) 
+	left join T_BD_UNIT_L tw1 on (tw1.FUNITID = tw.FUNITID)
+	where  t0.FBILLTYPEID = '5a41e09cdf400e' 
+  --原单调价单不合并 ts.FCONTACTUNIT  ts.FCONTACTUNIT
+
+	union all --收款退款
+select ts.FCONTACTUNIT as cid,tk.FNAME as cname, CONVERT(VARCHAR(19),ts.FDATE,102) as Fdate ,ts.FBILLNO as fbillno,
+'' as wname, 
+0 as qty,
+0 as FTAXPRICE,
+0 as FRECEIVEAMOUNT, 
+convert( decimal(18,2), ts.FRECEIVEAMOUNTFOR) as FPAYAMOUNTFOR,0 as ebalace
+from T_AR_RECEIVEBILL   ts
+left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= ts.FCONTACTUNIT) 
+where ts.fbilltypeid ='36cf265bd8c3452194ed9c83ec5e73d2' 
+union all
+(select tt.FCONTACTUNIT as cid,tk.FNAME as cname, CONVERT(VARCHAR(19),tt.FDATE,102) as Fdate ,tt.FBILLNO as fbillno,
+'' as wname,0 as QTY,0 as FTAXPRICE,0 as FRECEIVEAMOUNT, -(tt.FREFUNDTOTALAMOUNTFOR)  as FPAYAMOUNTFOR,0 as ebalace
+from  T_AR_REFUNDBILL	tt	
+left join T_BD_CUSTOMER_L tk on (tk.FCUSTID= tt.FCONTACTUNIT)
+where tt.FBILLTYPEID ='ef06f87d394a462d9f96cb2397803372' 
+)
+	--收款退款
+union all
+select fcustid as cid,fname as cname, CONVERT(datetime,FDATE1,111)  as fdate,''as fbillno,'' as wname,0 as qty,0 as ftaxprice,0 as FRECEIVEAMOUNT,0 as FPAYAMOUNTFOR,
+fbeginbalancefor as ebalace from #qichu
+
+)
+
+create table #saveqichu(custid int ,custname nvarchar(255),fdate datetime ,arbill nvarchar(255),fremark nvarchar(255),mater nvarchar(255),fmodel nvarchar(255),fsalqty float,funitname nvarchar(255),ftaxprice float,freceiveamount float,fpay float,ebalace float)
+insert into #saveqichu(custid,custname,fdate,arbill,fremark,mater,fmodel,fsalqty,funitname,ftaxprice,freceiveamount,fpay,ebalace)
+(select cid,cname as custname,CONVERT(datetime,'{2}'  /*{2}*/,    102)as fdate,''as arbillno,'期初余额'as fremark,''as materialname,''as fmodel,0as fsalqty,
+  ''as funitname,0as ftaxprice,0as freceiveamount,0as fpayamountfor,sum(ebalace)+sum(freceiveamount)-sum(fpayamountfor)as ebalance
+   from #buhebing 
+   where fdate>='2018/1/1 0:00:00' and fdate<'{2}' --2018 {2}
+   group by cname,cid
+)
+
+create table #guolvqichu (custid int ,custname nvarchar(255),fdate datetime ,arbill nvarchar(255),fremark nvarchar(255),mater nvarchar(255),fmodel nvarchar(255),fsalqty float,funitname nvarchar(255),ftaxprice float,freceiveamount float,fpay float,ebalace float)
+insert into #guolvqichu(custid,custname,fdate,arbill,fremark,mater,fmodel,fsalqty,funitname,ftaxprice,freceiveamount,fpay,ebalace)
+(select fcustid,fname,fdate1, ''as arbill ,''as fremark,''as mater,''as fmodel,''as fsalqty,''as funitname,''as ftaxprice,''as freceiveamount,''as fpay,fbeginbalancefor as ebalace from #qichu union 
+select * from #saveqichu 
+)
+create table #saveguolv (custid int ,custname nvarchar(255),fdate datetime ,arbill nvarchar(255),fremark nvarchar(255),mater nvarchar(255),fmodel nvarchar(255),fsalqty float,funitname nvarchar(255),ftaxprice float,freceiveamount float,fpay float,ebalace float,num int)
+insert into #saveguolv(custid,custname,fdate,arbill,fremark,mater,fmodel,fsalqty,funitname,ftaxprice,freceiveamount,fpay,ebalace,num)
+(select *, row_number()over(partition by custid order by fdate desc) as num from #guolvqichu)
+
+
+delete  from #saveguolv where fremark='' and num =2
+
+create table #qichuzhengchang (custid int ,custname nvarchar(255),fdate datetime ,arbill nvarchar(255),fremark nvarchar(255),mater nvarchar(255),fmodel nvarchar(255),fsalqty float,funitname nvarchar(255),ftaxprice float,freceiveamount float,fpay float,ebalace decimal(18,2))
+insert into #qichuzhengchang (custid,custname,fdate,arbill,fremark,mater,fmodel,fsalqty,funitname,ftaxprice,freceiveamount,fpay,ebalace)
+(select custid,custname,fdate,arbill,fremark,mater,fmodel,fsalqty,funitname,ftaxprice,freceiveamount,fpay,ebalace from #saveguolv
+union 
+select * from #zhengchang
+)
+update #qichuzhengchang set fpay =0 where fpay is null
+update #qichuzhengchang set ebalace =0 where ebalace is null
+
+
+--期初+正常+合计
+insert into #qichuzhengchang (custid,custname,fdate,arbill,fremark,mater,fmodel,fsalqty,funitname,ftaxprice,freceiveamount,fpay,ebalace)
+(select custid,custname,'{3}'/*{3}*/as fdate,''as arbill,'合计'as fremark,''as mater,''as fmodel,''as fsalqty,''as funitname,''as ftaxprice,sum (freceiveamount) as freceiveamount ,sum(fpay) as fpay,sum(ebalace)+sum(freceiveamount)-sum(fpay)as ebalace from #qichuzhengchang  group by custid,custname 
+)
+
+
+create table #ora (forgid  decimal(18,2),fname nvarchar(255))   --天邦万豪
+insert into #ora (forgid,fname)
+(select distinct FORGID,FNAME from T_ORG_ORGANIZATIONS_L)
+
+create table #bumen (fcustid nvarchar(255),fdatavalue nvarchar(255),fentryid nvarchar(255)) 
+insert into #bumen (fcustid,fdatavalue,fentryid)
+(select distinct tke.FCUSTID,tg.FDATAVALUE,tg.FENTRYID from T_BD_CUSTOMER tke
+left join T_BAS_ASSISTANTDATAENTRY_L  tg on tke.FCOMPANYCLASSIFY =tg.FENTRYID and tg.FLOCALEID = 2052
+)
+--select * from #gong
+create table #pianqu (fcustid nvarchar(255),fdateavalue nvarchar(255),fdatavalue nvarchar(255),fentryid1 nvarchar(255),fentryid2 nvarchar(255))
+insert into #pianqu (fcustid,fdateavalue,fentryid1,fdatavalue,fentryid2)
+(select distinct tbu.* ,tg.FDATAVALUE ,tg.FENTRYID from #bumen tbu
+left join  T_BD_CUSTOMER tke on tke.FCUSTID = tbu.fcustid
+left join T_BAS_ASSISTANTDATAENTRY_L tg on tg.FENTRYID =tke.FCOMPANYNATURE and tg.FLOCALEID = 2052)
+
+
+create table #gong (fcustid nvarchar(255),fdateavalue nvarchar(255),fdatavalue nvarchar(255),gong nvarchar(255),fentryid1 nvarchar(255),fentryid2 nvarchar(255),fentryid3 nvarchar(255))
+insert into #gong (fcustid,fdateavalue,fdatavalue,gong,fentryid1,fentryid2,fentryid3 )
+(select distinct pian.fcustid,pian.fdateavalue,pian.fdatavalue ,tg.FDATAVALUE ,pian.fentryid1,pian.fentryid2,tg.FENTRYID from #pianqu pian
+left join  T_BD_CUSTOMER tke on tke.FCUSTID = pian.fcustid
+left join T_BAS_ASSISTANTDATAENTRY_L tg on tg.FENTRYID =tke.FCOMPANYSCALE and tg.FLOCALEID = 2052)
+
+
+create table #test2( FCUSTID int,CustName nvarchar(255),Fdate nvarchar(255),ArBillNo nvarchar(255),fremark nvarchar(255),MaterialName nvarchar(255),FModel nvarchar(255),FSALQTY float,FunitName nvarchar(255),FTAXPRICE float,FRECEIVEAMOUNT float,FPAYAMOUNTFOR float,Ebalance float,fshortname nvarchar(255), FCOMPANYCLASSIFY nvarchar(255),FCOMPANYNATURE nvarchar(255),FCOMPANYSCALE nvarchar(255),fname nvarchar(255),sortid nvarchar(255), fdate1 datetime,gsid nvarchar(255),bmid nvarchar(255),pqid nvarchar(255),forid int)
+insert into #test2(FCUSTID,CustName ,Fdate ,ArBillNo ,fremark,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT ,FPAYAMOUNTFOR ,Ebalance ,fshortname,FCOMPANYCLASSIFY,FCOMPANYNATURE,FCOMPANYSCALE,fname,sortid,fdate1,gsid,bmid,pqid,forid)
+(
+select  t7.custid,t7.custname,CONVERT(VARCHAR(19),FDATE,102),t7.arbill,t7.fremark,t7.mater,t7.fmodel,t7.fsalqty,t7.funitname,t7.ftaxprice,t7.freceiveamount,t7.fpay,t7.ebalace, t.fshortname,g.fdateavalue,g.fdatavalue ,g.gong,o.fname,''as sortid ,CONVERT(datetime,fdate,111),g.fentryid1,g.fentryid2,g.fentryid3,o.forgid from  #qichuzhengchang  t7
+left join T_BD_CUSTOMER c on c.FCUSTID=t7.custid
+left join #ora o on o.FORGID = c.FUSEORGID 
+left join #gong g on g.fcustid =t7.custid 
+left join   T_BD_CUSTOMER_L t on t.FCUSTID =t7.custid 
+)
+
+
+update #test2 set fremark ='期初余额' where ArBillNo ='' and fremark ='' 
+update #test2 set sortid ='a' where fremark='期初余额'
+update #test2 set sortid ='z' where fremark='合计'
+update #test2 set sortid ='b' where fremark!='合计' and fremark!='期初余额'
+update #test2 set FSALQTY = null where FSALQTY =0
+update #test2 set FTAXPRICE = null where FTAXPRICE =0
+update #test2 set FRECEIVEAMOUNT = null where FRECEIVEAMOUNT =0
+update #test2 set FPAYAMOUNTFOR = null where FPAYAMOUNTFOR =0
+update #test2 set Ebalance = null where Ebalance =0
+update #test2 set FSALQTY = null where ArBillNo like 'tj%'
+
+
+
+
+create table #noqichu (fcustid int, custname nvarchar(255))
+insert into #noqichu (fcustid, custname)
+(select FCUSTID, custname from #test2 where fremark='期初余额')
+
+create table #allper (fcustid int, custname nvarchar(255))
+insert into #allper (fcustid, custname)
+(select distinct FCUSTID, custname from #test2 )
+
+create table #noqichusave (fcustid int ,acustname nvarchar(255) ,bcustname nvarchar(255))
+insert into #noqichusave(fcustid,acustname,bcustname)
+(
+
+select a.fcustid,a.custname, b.custname from #allper a
+left join #noqichu b on a.FCUSTID=b.fcustid
+)
+
+insert into #test2(FCUSTID,CustName ,Fdate ,ArBillNo ,fremark,MaterialName,FModel,FSALQTY,FunitName,FTAXPRICE,FRECEIVEAMOUNT ,FPAYAMOUNTFOR ,Ebalance ,fshortname,FCOMPANYCLASSIFY,FCOMPANYNATURE,FCOMPANYSCALE,fname,sortid,fdate1,gsid,bmid,pqid,forid)
+(
+select fcustid,acustname ,''as fdate ,''as arbill,'期初余额' as fremark ,null as materialname,null as fmodel,null as fsalqty ,null as funitname,null ,null as fre,null as fpay ,'0'as eba,''as fsh,'','','','','','','','','','' from #noqichusave where bcustname is null
+)
+
+create table #oneqichu (fdate nvarchar(255))
+insert into #oneqichu (fdate)
+(
+select distinct fdate from #test2  where fremark='期初余额' and #test2.Fdate !=''
+)
+
+update #test2 set #test2.fdate=#oneqichu.fdate from #test2,#oneqichu where fremark='期初余额' and #test2.Fdate =''
+
+
+
+
+
+
+
+
+select * 
+ ,
+ ROW_NUMBER() OVER(ORDER BY CustName,sortid,fdate1) FIDENTITYID 
+  into {1}
+from #test2 
+
+
+
+		 
+</section>              <!--c-->
 		
 	  </div>
 	</div>
